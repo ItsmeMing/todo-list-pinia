@@ -1,10 +1,11 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup>
-import {inject, computed} from "vue";
+import {computed} from "vue";
+import {useTodosStore} from "../stores/todosStore";
 
 const props = defineProps(["todo", "idx"]);
-const changeTodoStatus = inject("changeTodoStatus");
-const deleteTodo = inject("deleteTodo");
+const store = useTodosStore();
+const {changeTodoStatus, deleteTodo} = store;
 const bool = computed(() => {
     if (props.todo.status === "Done") return false;
     else return true;

@@ -1,9 +1,12 @@
 <script setup>
-import {ref, inject} from "vue";
+import {ref} from "vue";
+import {useTodosStore} from "../stores/todosStore";
 
 const props = defineProps(["data", "priorityStatus"]);
+const store = useTodosStore();
+const {handlePriorityChecked} = store;
 const status = ref(props.data[0].status);
-const handlePriorityChecked = inject("handlePriorityStatus");
+
 const handleInput = (checkedPriority, e) => {
     if (e.target.checked) {
         props.priorityStatus.map((pr) => {
@@ -29,7 +32,9 @@ const handleInput = (checkedPriority, e) => {
             :key="key"
         >
             <input
-                :id="`${status.toLowerCase()}-${priority.name.toLowerCase().replace(/\s/g, '')}`"
+                :id="`${status.toLowerCase()}-${priority.name
+                    .toLowerCase()
+                    .replace(/\s/g, '')}`"
                 type="checkbox"
                 @click="
                     ($event) => {
@@ -39,9 +44,12 @@ const handleInput = (checkedPriority, e) => {
                 "
                 :checked="priority.checked"
             />
-            <label :for="`${status.toLowerCase()}-${priority.name.toLowerCase().replace(/\s/g, '')}`">{{
-                priority.name
-            }}</label>
+            <label
+                :for="`${status.toLowerCase()}-${priority.name
+                    .toLowerCase()
+                    .replace(/\s/g, '')}`"
+                >{{ priority.name }}</label
+            >
         </div>
     </div>
 </template>

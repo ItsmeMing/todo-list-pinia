@@ -1,8 +1,10 @@
 <script setup>
-import {inject} from "vue";
+import {storeToRefs} from "pinia";
+import {useTodosStore} from "../stores/todosStore";
 
-defineEmits(["checked"]);
-const todosStatus = inject("todosStatus");
+const store = useTodosStore();
+const {todosStatus} = storeToRefs(store);
+const {handleStatusChecked} = store;
 </script>
 
 <template>
@@ -20,7 +22,7 @@ const todosStatus = inject("todosStatus");
                 :id="status.name.toLowerCase().replace(/\s/g, '')"
                 type="checkbox"
                 :v-model="status.checked"
-                @click="$emit('statusChecked', status.name, $event)"
+                @click="handleStatusChecked(status.name, $event)"
                 :checked="status.checked"
             />
             <label :for="status.name.toLowerCase().replace(/\s/g, '')">{{

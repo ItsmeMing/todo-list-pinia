@@ -1,8 +1,11 @@
 import {createApp} from "vue";
+import {createPinia} from "pinia";
 import App from "./App.vue";
 
 import "./assets/reset.css";
 import "./assets/base.css";
+
+const pinia = createPinia();
 
 /* import the fontawesome core */
 import {library} from "@fortawesome/fontawesome-svg-core";
@@ -29,4 +32,7 @@ library.add(
     faTrash,
 );
 
-createApp(App).component("FontAwesomeIcon", FontAwesomeIcon).mount("#app");
+createApp(App)
+    .component("FontAwesomeIcon", FontAwesomeIcon)
+    .use(pinia)
+    .mount("#app");

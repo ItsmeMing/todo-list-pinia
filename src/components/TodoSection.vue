@@ -1,10 +1,12 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup>
-import {inject} from "vue";
+import {storeToRefs} from "pinia";
+import {useTodosStore} from "../stores/todosStore";
 import Todos from "./Todos.vue";
 
 defineProps(["sectionHeader", "sectionIcon", "checked"]);
-const todosList = inject("todosList");
+const store = useTodosStore();
+const {todos} = storeToRefs(store);
 </script>
 
 <template>
@@ -20,7 +22,7 @@ const todosList = inject("todosList");
             </div>
             <Todos
                 :todosListFiltered="
-                    todosList.filter((todo) => todo.status === sectionHeader)
+                    todos.filter((todo) => todo.status === sectionHeader)
                 "
             />
         </div>

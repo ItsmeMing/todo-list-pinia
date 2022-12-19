@@ -1,27 +1,10 @@
 <script setup>
-import {ref, inject} from "vue";
+import {storeToRefs} from "pinia";
+import { useTodosStore } from "../stores/todosStore";
 
-const todosList = inject("todosList");
-const addTodo = inject("addTodo");
-
-const todo = ref({
-    title: "",
-    description: "",
-    priority: "Low",
-    status: "Pending",
-    showed: true,
-    id: todosList.value.length,
-});
-
-const clearInput = () =>
-    (todo.value = {
-        title: "",
-        description: "",
-        priority: "Low",
-        status: "Pending",
-        showed: true,
-        id: todosList.value.length,
-    });
+const store = useTodosStore();
+const {todoInput} = storeToRefs(store);
+const {addTodo} = store;
 </script>
 
 <template>
@@ -29,24 +12,24 @@ const clearInput = () =>
         <section class="input-section">
             <div>
                 <label>Title: </label>
-                <input type="text" v-model="todo.title" required />
+                <input type="text" v-model="todoInput.title" required />
             </div>
             <div>
                 <label>Description: </label>
-                <input type="text" v-model="todo.description" required />
+                <input type="text" v-model="todoInput.description" required />
             </div>
         </section>
         <section class="select-section">
             <div>
                 <label>Status: </label>
-                <select v-model="todo.status">
+                <select v-model="todoInput.status">
                     <option value="Pending">Pending</option>
                     <option value="In Progress">In Progress</option>
                 </select>
             </div>
             <div>
                 <label>Priority: </label>
-                <select v-model="todo.priority">
+                <select v-model="todoInput.priority">
                     <option value="Low">Low</option>
                     <option value="Medium">Medium</option>
                     <option value="High">High</option>
@@ -56,8 +39,7 @@ const clearInput = () =>
         <button
             @click.prevent="
                 () => {
-                    addTodo(todo);
-                    clearInput();
+                    addTodo(todoInput);
                 }
             "
         >
